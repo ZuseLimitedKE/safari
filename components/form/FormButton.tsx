@@ -19,13 +19,10 @@ const FormButton = ({
   return (
     <Button
       onPress={handlePress}
-      className={`bg-blue-600  ${containerStyles} ${isLoading ? "opacity-50" : ""
-        }`}
+      className={` my-4  ${containerStyles} ${isLoading ? "opacity-50" : ""}`}
       disabled={isLoading}
     >
-      <Text className={`text-white  font-semibold text-lg ${textStyles}`}>
-        {title}
-      </Text>
+      <Text className={`  font-semibold text-lg ${textStyles}`}>{title}</Text>
 
       {isLoading && (
         <ActivityIndicator

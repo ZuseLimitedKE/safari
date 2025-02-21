@@ -22,7 +22,7 @@ export function AuthModal({ authType }: AuthModalProps) {
             </View>
           ) : (
             <View className="flex flex-col gap-1">
-              <Text className=" text-xl font-semibold">Hi there,...</Text>
+              <Text className=" text-xl font-semibold">Registration</Text>
               <Text className="font-regular text-sm dark:[#ABB8C4]">
                 Create your account
               </Text>

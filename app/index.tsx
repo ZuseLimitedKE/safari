@@ -43,21 +43,17 @@ export default function HomeScreen() {
           Schedule your first ride today!
         </Text>
         <View className="w-full my-2 px-10 gap-5">
-          <Button
-            size="lg"
-            className=" bg-greenPrimary "
-            onPress={() => showModal(ModalType.SignUp)}
-          >
-            <Text className="text-white font-semibold text-xl">
-              Let's get started
-            </Text>
+          <Button size="lg" onPress={() => showModal(ModalType.SignUp)}>
+            <Text className=" font-semibold text-xl">Let's get started</Text>
           </Button>
           <Button
             size="lg"
-            className="   border-2 border-solid border-greenPrimary bg-transparent   items-center"
+            className="   border-2 border-solid dark:border-white border-black bg-transparent   items-center"
             onPress={() => showModal(ModalType.Login)}
           >
-            <Text className={`text-greenPrimary font-semibold text-lg`}>
+            <Text
+              className={` text-black dark:text-white font-semibold text-lg`}
+            >
               I already have an account
             </Text>
           </Button>
