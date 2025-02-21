@@ -13,6 +13,7 @@
     "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.1.0",
     "@gorhom/bottom-sheet": "^5.1.1",
     "@hookform/resolvers": "^4.1.0",
     "@react-navigation/native": "^7.0.14",
