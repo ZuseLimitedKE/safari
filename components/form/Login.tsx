@@ -7,7 +7,7 @@ import { Mail } from "lucide-react-native";
 import { loginSchema } from "~/types/zod";
 import { FormButton } from "./FormButton";
 type FormData = z.infer<typeof loginSchema>;
-export function SignUp() {
+export function Login() {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",

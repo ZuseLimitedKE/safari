@@ -1,95 +1,82 @@
-import * as React from 'react';
-import { View } from 'react-native';
-import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig } from 'react-native-reanimated';
-import { Info } from '~/lib/icons/Info';
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
-import { Button } from '~/components/ui/button';
+import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '~/components/ui/card';
-import { Progress } from '~/components/ui/progress';
-import { Text } from '~/components/ui/text';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetBackdrop,
+} from "@gorhom/bottom-sheet";
+import { useCallback, useRef, useState } from "react";
+import { ModalType } from "~/types";
 
-const GITHUB_AVATAR_URI =
-  'https://i.pinimg.com/originals/ef/a2/8d/efa28d18a04e7fa40ed49eeb0ab660db.jpg';
+import { AuthModal } from "~/components/AuthModal";
+import { Button } from "~/components/ui/button";
+import { Text } from "~/components/ui/text";
+export default function HomeScreen() {
+  const { top } = useSafeAreaInsets();
+  const [authType, setAuthType] = useState<ModalType | null>(null);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-export default function Screen() {
-  const [progress, setProgress] = React.useState(78);
+  const showModal = async (type: ModalType) => {
+    setAuthType(type);
+    bottomSheetModalRef.current?.present();
+  };
 
-  function updateProgressValue() {
-    setProgress(Math.floor(Math.random() * 100));
-  }
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        opacity={0.6}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        {...props}
+        onPress={() => bottomSheetModalRef.current?.close()}
+      />
+    ),
+    [],
+  );
   return (
-    <View className='flex-1 justify-center items-center gap-5 p-6 bg-secondary/30'>
-      <Card className='w-full max-w-sm p-6 rounded-2xl'>
-        <CardHeader className='items-center'>
-          <Avatar alt="Rick Sanchez's Avatar" className='w-24 h-24'>
-            <AvatarImage source={{ uri: GITHUB_AVATAR_URI }} />
-            <AvatarFallback>
-              <Text>RS</Text>
-            </AvatarFallback>
-          </Avatar>
-          <View className='p-3' />
-          <CardTitle className='pb-2 text-center'>Rick Sanchez</CardTitle>
-          <View className='flex-row'>
-            <CardDescription className='text-base font-semibold'>Scientist</CardDescription>
-            <Tooltip delayDuration={150}>
-              <TooltipTrigger className='px-2 pb-0.5 active:opacity-50'>
-                <Info size={14} strokeWidth={2.5} className='w-4 h-4 text-foreground/70' />
-              </TooltipTrigger>
-              <TooltipContent className='py-2 px-4 shadow'>
-                <Text className='native:text-lg'>Freelance</Text>
-              </TooltipContent>
-            </Tooltip>
-          </View>
-        </CardHeader>
-        <CardContent>
-          <View className='flex-row justify-around gap-3'>
-            <View className='items-center'>
-              <Text className='text-sm text-muted-foreground'>Dimension</Text>
-              <Text className='text-xl font-semibold'>C-137</Text>
-            </View>
-            <View className='items-center'>
-              <Text className='text-sm text-muted-foreground'>Age</Text>
-              <Text className='text-xl font-semibold'>70</Text>
-            </View>
-            <View className='items-center'>
-              <Text className='text-sm text-muted-foreground'>Species</Text>
-              <Text className='text-xl font-semibold'>Human</Text>
-            </View>
-          </View>
-        </CardContent>
-        <CardFooter className='flex-col gap-3 pb-0'>
-          <View className='flex-row items-center overflow-hidden'>
-            <Text className='text-sm text-muted-foreground'>Productivity:</Text>
-            <LayoutAnimationConfig skipEntering>
-              <Animated.View
-                key={progress}
-                entering={FadeInUp}
-                exiting={FadeOutDown}
-                className='w-11 items-center'
-              >
-                <Text className='text-sm font-bold text-sky-600'>{progress}%</Text>
-              </Animated.View>
-            </LayoutAnimationConfig>
-          </View>
-          <Progress value={progress} className='h-2' indicatorClassName='bg-sky-600' />
-          <View />
+    <BottomSheetModalProvider>
+      <View
+        className={`flex-1 dark:bg-black   justify-center pt-[${top + 30}px] items-center gap-5  `}
+      >
+        <Text className=" font-bold  text-5xl ">Welcome to Safari</Text>
+        <Text className="font-regular max-w-sm   dark:text-gray-300 text-gray-500">
+          Schedule your first ride today!
+        </Text>
+        <View className="w-full my-2 px-10 gap-5">
           <Button
-            variant='outline'
-            className='shadow shadow-foreground/5'
-            onPress={updateProgressValue}
+            size="lg"
+            className=" bg-greenPrimary "
+            onPress={() => showModal(ModalType.SignUp)}
           >
-            <Text>Update</Text>
+            <Text className="text-white font-semibold text-xl">
+              Let's get started
+            </Text>
           </Button>
-        </CardFooter>
-      </Card>
-    </View>
+          <Button
+            size="lg"
+            className="   border-2 border-solid border-greenPrimary bg-transparent   items-center"
+            onPress={() => showModal(ModalType.Login)}
+          >
+            <Text className={`text-greenPrimary font-semibold text-lg`}>
+              I already have an account
+            </Text>
+          </Button>
+
+          <Text className=" text-xs underline text-center">
+            Can't log in or sign up?
+          </Text>
+        </View>
+      </View>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        handleComponent={null}
+        backdropComponent={renderBackdrop}
+        enableOverDrag={false}
+        enablePanDownToClose
+      >
+        <AuthModal authType={authType} />
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
   );
 }
