@@ -19,7 +19,7 @@ const FormButton = ({
   return (
     <Button
       onPress={handlePress}
-      className={` my-4  ${containerStyles} ${isLoading ? "opacity-50" : ""}`}
+      className={` my-4 flex flex-row items-center ${containerStyles} ${isLoading ? "opacity-50" : ""}`}
       disabled={isLoading}
     >
       <Text className={`  font-semibold text-lg ${textStyles}`}>{title}</Text>
